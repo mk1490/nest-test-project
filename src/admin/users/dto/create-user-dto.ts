@@ -9,6 +9,7 @@ import {
     ValidationError, ValidatorConstraint
 } from 'class-validator';
 import {ApiProperty} from "@nestjs/swagger";
+import {Constants} from "../../../shared/constants";
 
 export class CreateUserDto {
     @ApiProperty()
@@ -39,7 +40,7 @@ export class CreateUserDto {
 
     @ApiProperty()
     // Set Iranian national code regex pattern.
-    @Matches(/^[0-9]{10}$/, {message: 'National code not valid! the national code must be iranian national code standard!'})
+    @Matches(Constants.PASSWORD_REGEX_PATTERN, {message: 'National code not valid! the national code must be iranian national code standard!'})
     @MaxLength(16)
     nationalCode: string;
 }
