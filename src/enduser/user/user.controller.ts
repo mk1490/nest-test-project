@@ -1,17 +1,15 @@
 import {Controller, Get, Param} from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import {ApiTags} from '@nestjs/swagger';
 import {UserService} from "../../shared/user/user.service";
 
 
 @ApiTags('Users')
-@Controller('enduser/user')
+@Controller('user')
 export class UserController {
-
     constructor(
         private readonly userService: UserService
     ) {
     }
-
 
     @Get(':id')
     findUserById(@Param('id') userId: number) {

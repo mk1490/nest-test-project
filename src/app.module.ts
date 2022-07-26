@@ -12,6 +12,7 @@ import {EnduserModule} from './enduser/enduser.module';
 import {AuthController} from './shared/auth/auth.controller';
 import {SharedModule} from './shared/shared.module';
 import {AdminModule} from './admin/admin.module';
+import {RouterModule} from "@nestjs/core";
 
 @Module({
     imports: [
@@ -23,6 +24,17 @@ import {AdminModule} from './admin/admin.module';
         SharedModule,
         EnduserModule,
         AdminModule,
+        RouterModule.register([
+            {
+                module: AdminModule,
+                path: 'admin'
+            },
+            {
+                module: EnduserModule,
+                path: 'enduser'
+            },
+
+        ])
     ],
     controllers: [AppController, AuthController],
     providers: [
