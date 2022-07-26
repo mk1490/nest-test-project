@@ -9,10 +9,10 @@ datasource db {
 
 model User {
   id    Int    @id @default(autoincrement())
-  name  String @db.VarChar(50)
-  phoneNumber String @db.VarChar(11)
-  email String @db.VarChar(255)
-  password String @db.VarChar(50)
-  nationalCode String @db.VarChar(11)
-  wallet Int
+  name  String? @db.VarChar(50)
+  phoneNumber String? @db.VarChar(16)
+  email String @db.VarChar(50)
+  password String @db.VarChar(255) @private
+  nationalCode String? @db.VarChar(11)
+  wallet Int?
 }
