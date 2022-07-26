@@ -35,7 +35,7 @@ export class AuthController {
     @ApiBearerAuth()
     @Get('profile')
     async getProfile(@Req() request: Request) {
-        return await this.authService.getCurrentUserProfile(request.user['userId'])
+        await this.authService.getCurrentUserProfile(request.user['userId'])
     }
 
 }
