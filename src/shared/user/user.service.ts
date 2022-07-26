@@ -2,6 +2,7 @@ import {BadRequestException, Injectable, NotFoundException, UsePipes, Validation
 import {Prisma} from '@prisma/client';
 import * as bcrypt from 'bcrypt';
 import {PrismaService} from "../../prisma.service";
+import {use} from "passport";
 
 
 @Injectable()
@@ -53,5 +54,21 @@ export class UserService {
         // Delete sensitive prop
         delete user.password;
         return user;
+    }
+
+    async deleteUser(userId: number) {
+        userId = +userId; // Change user id string from request form to userid number
+        const user = await this.prisma.user.findFirst({
+            where: {
+                id: userId,
+            }
+        });
+        if (!user)
+            throw new NotFoundException();
+        return this.prisma.user.delete({
+            where: {
+                id: userId,
+            }
+        });
     }
 }

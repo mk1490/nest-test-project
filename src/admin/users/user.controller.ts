@@ -1,4 +1,4 @@
-import {Body, Controller, Get, Post, Query, Req, UseGuards} from '@nestjs/common';
+import {Body, Controller, Delete, Get, Param, Post, Query, Req, UseGuards} from '@nestjs/common';
 import {UserService} from "../../shared/user/user.service";
 import {CreateUserDto} from "./dto/create-user-dto";
 import {PrismaService} from "../../prisma.service";
@@ -28,6 +28,14 @@ export class UserController {
     @Post()
     async createUser(@Body() body: CreateUserDto) {
         return await this.userService.createUser(body);
+    }
+
+
+    @Delete(':userId')
+    @ApiBearerAuth()
+    @UseGuards(JwtAuthGuard)
+    async deleteUser(@Param('userId') userId: number) {
+        return await this.userService.deleteUser(userId);
     }
 
 }
