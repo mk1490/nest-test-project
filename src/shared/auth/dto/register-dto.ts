@@ -15,6 +15,6 @@ export class RegisterDto {
 
     @ApiProperty()
     @IsNotEmpty()
-    @Matches(Constants.PASSWORD_REGEX_PATTERN, {message: 'Password must be contain minimum a letter of lower [a-z] and a minimum of upper case and 8 character at least'})
+    // @Matches(Constants.PASSWORD_REGEX_PATTERN, {message: 'Password must be contain minimum a letter of lower [a-z] and a minimum of upper case and 8 character at least'})
     password: string;
 }

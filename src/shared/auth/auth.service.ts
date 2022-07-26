@@ -1,14 +1,12 @@
 import {
-    ClassSerializerInterceptor,
     Injectable,
     NotFoundException,
     UnauthorizedException,
-    UseInterceptors
 } from '@nestjs/common';
 import {PrismaService} from "../../prisma.service";
 import * as bcrypt from 'bcrypt';
 import {JwtService} from "@nestjs/jwt";
-import {CreateUserDto} from "../../admin/users/dto/create-user-dto";
+import {CreateUserDto} from "../../api/admin/users/dto/create-user-dto";
 import {RegisterDto} from "./dto/register-dto";
 import {Prisma} from "@prisma/client";
 import {UserService} from "../user/user.service";
@@ -35,9 +33,8 @@ export class AuthService {
         });
         // Check if user exists
         if (user == null)
-            return new NotFoundException();
-
-        const isPasswordValid: boolean = await bcrypt.compare(password, user.password);
+            throw new NotFoundException();
+        const isPasswordValid: boolean = bcrypt.compareSync(password, user.password);
         if (isPasswordValid) {
             const payload = {
                 sub: user.id,
@@ -50,7 +47,7 @@ export class AuthService {
 
     async registerUser(userPayload: RegisterDto): Promise<User> {
         const email: string = userPayload.email;
-        const password: string = await bcrypt.hash(userPayload.password, 10);
+        const password: string = userPayload.password;
         const phoneNumber: string = userPayload.phoneNumber;
         const user = await this.userService.createUser({
             email,

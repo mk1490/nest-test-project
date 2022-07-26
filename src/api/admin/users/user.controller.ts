@@ -1,19 +1,24 @@
-import {Body, Controller, Delete, Get, Param, Post, Query, Req, UseGuards} from '@nestjs/common';
-import {UserService} from "../../shared/user/user.service";
-import {CreateUserDto} from "./dto/create-user-dto";
-import {PrismaService} from "../../prisma.service";
-import {JwtAuthGuard} from "../../shared/auth/jwt-auth.guard";
+import {
+    Body,
+    Controller,
+    Delete,
+    Get,
+    Param,
+    Post,
+    Query,
+    Req,
+    UseGuards,
+} from '@nestjs/common';
+import {UserService} from '../../../shared/user/user.service';
+import {CreateUserDto} from './dto/create-user-dto';
+import {JwtAuthGuard} from '../../../shared/auth/jwt-auth.guard';
 import {ApiBearerAuth, ApiTags} from '@nestjs/swagger';
 
 @ApiTags('Users')
 @Controller('user')
 export class UserController {
-
-    constructor(
-        private userService: UserService,
-    ) {
+    constructor(private userService: UserService) {
     }
-
 
     @UseGuards(JwtAuthGuard)
     @ApiBearerAuth()
@@ -22,14 +27,13 @@ export class UserController {
         return await this.userService.getAllUsers();
     }
 
-
     @UseGuards(JwtAuthGuard)
     @ApiBearerAuth()
     @Post()
     async createUser(@Body() body: CreateUserDto) {
+        console.log("Create user", body)
         return await this.userService.createUser(body);
     }
-
 
     @Delete(':userId')
     @ApiBearerAuth()
@@ -37,5 +41,4 @@ export class UserController {
     async deleteUser(@Param('userId') userId: number) {
         return await this.userService.deleteUser(userId);
     }
-
 }

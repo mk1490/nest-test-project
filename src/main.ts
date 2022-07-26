@@ -28,7 +28,6 @@ async function bootstrap() {
         skipMissingProperties: false,
     }));
 
-
     await app.listen(3000);
 }
 

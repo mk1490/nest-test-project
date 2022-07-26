@@ -9,7 +9,8 @@ import {
     ValidationError, ValidatorConstraint
 } from 'class-validator';
 import {ApiProperty} from "@nestjs/swagger";
-import {Constants} from "../../../shared/constants";
+import {Constants} from "../../../../shared/constants";
+import {Transform} from 'class-transformer';
 
 export class CreateUserDto {
     @ApiProperty()
@@ -31,6 +32,7 @@ export class CreateUserDto {
 
     @ApiProperty()
     @IsNumber()
+    @Transform(({value}) => parseInt(value))
     wallet: bigint;
 
     @ApiProperty()
@@ -43,4 +45,8 @@ export class CreateUserDto {
     @Matches(Constants.PASSWORD_REGEX_PATTERN, {message: 'National code not valid! the national code must be iranian national code standard!'})
     @MaxLength(16)
     nationalCode: string;
+
+
+    @ApiProperty()
+    test: string
 }
