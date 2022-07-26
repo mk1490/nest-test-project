@@ -4,13 +4,11 @@ import {
     IsNumber,
     IsPhoneNumber,
     Matches,
-    MaxLength, ValidationError, ValidatorConstraint
+    MaxLength, ValidationError
 } from 'class-validator';
 import {ApiProperty} from "@nestjs/swagger";
 import {Constants} from "../../../../shared/constants";
 import {Transform} from 'class-transformer';
-import {LatinDigitsCorrectorPipe} from "../../../../pipes/latin-digits-corrector.pipe";
-import {UsePipes} from "@nestjs/common";
 
 export class CreateUserDto {
     @ApiProperty()
