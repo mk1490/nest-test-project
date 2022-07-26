@@ -31,7 +31,6 @@ export class UserController {
     @ApiBearerAuth()
     @Post()
     async createUser(@Body() body: CreateUserDto) {
-        console.log("Create user", body)
         return await this.userService.createUser(body);
     }
 

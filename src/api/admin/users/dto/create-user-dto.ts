@@ -1,16 +1,16 @@
 import {
     IsEmail,
-    IsEmpty,
     IsNotEmpty,
     IsNumber,
     IsPhoneNumber,
     Matches,
-    MaxLength, MinLength,
-    ValidationError, ValidatorConstraint
+    MaxLength, ValidationError, ValidatorConstraint
 } from 'class-validator';
 import {ApiProperty} from "@nestjs/swagger";
 import {Constants} from "../../../../shared/constants";
 import {Transform} from 'class-transformer';
+import {LatinDigitsCorrectorPipe} from "../../../../pipes/latin-digits-corrector.pipe";
+import {UsePipes} from "@nestjs/common";
 
 export class CreateUserDto {
     @ApiProperty()
@@ -36,17 +36,15 @@ export class CreateUserDto {
     wallet: bigint;
 
     @ApiProperty()
-    @IsPhoneNumber()
     @MaxLength(13)
+    // Convert persian digits to latin digits.
+    @Transform(({value}) => value.replace(/[٠-٩]/g, d => "٠١٢٣٤٥٦٧٨٩".indexOf(d)).replace(/[۰-۹]/g, d => "۰۱۲۳۴۵۶۷۸۹".indexOf(d)))
+    @Matches(Constants.PHONE_NUMBER_REGEX_PATTERN)
     phoneNumber: string;
 
     @ApiProperty()
     // Set Iranian national code regex pattern.
-    @Matches(Constants.PASSWORD_REGEX_PATTERN, {message: 'National code not valid! the national code must be iranian national code standard!'})
+    @Matches(Constants.NATIONAL_CODE_REGEX_PATTERN, {message: 'National code not valid! the national code must be iranian national code standard!'})
     @MaxLength(16)
     nationalCode: string;
-
-
-    @ApiProperty()
-    test: string
 }
